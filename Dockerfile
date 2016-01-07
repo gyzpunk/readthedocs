@@ -34,31 +34,12 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& locale-gen en_US.UTF-8 \
 	&& dpkg-reconfigure locales \
 
-	# Install CMAP for pdflatex
-	&& curl -L -o /tmp/cmap.zip http://mirrors.ctan.org/macros/latex/contrib/cmap.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/cmap.zip \
-	&& curl -L -o /tmp/fancybox.zip http://mirrors.ctan.org/macros/latex/contrib/fancybox.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/fancybox.zip \
-	&& curl -L -o /tmp/titlesec.zip http://mirrors.ctan.org/macros/latex/contrib/titlesec.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/titlesec.zip \
-	&& curl -L -o /tmp/framed.zip http://mirrors.ctan.org/macros/latex/contrib/framed.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/framed.zip \
-	&& curl -L -o /tmp/fancyvrb.zip http://mirrors.ctan.org/macros/latex/contrib/fancyvrb.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/fancyvrb.zip && cd /usr/share/texmf/tex/latex/fancyvrb && latex fancyvrb.ins && cd - \
-	&& curl -L -o /tmp/threeparttable.zip http://mirrors.ctan.org/macros/latex/contrib/threeparttable.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/threeparttable.zip \
-	&& curl -L -o /tmp/mdwtools.zip http://mirrors.ctan.org/macros/latex/contrib/mdwtools.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/mdwtools.zip \
-	&& curl -L -o /tmp/wrapfig.zip http://mirrors.ctan.org/macros/latex/contrib/wrapfig.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/wrapfig.zip \
-	&& curl -L -o /tmp/parskip.zip http://mirrors.ctan.org/macros/latex/contrib/parskip.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/parskip.zip \
-	&& curl -L -o /tmp/upquote.zip http://mirrors.ctan.org/macros/latex/contrib/upquote.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/upquote.zip \
-	&& curl -L -o /tmp/float.zip http://mirrors.ctan.org/macros/latex/contrib/float.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/float.zip && cd /usr/share/texmf/tex/latex/float && latex float.ins && cd - \
-	&& curl -L -o /tmp/multirow.zip http://mirrors.ctan.org/macros/latex/contrib/multirow.zip \
-	&& unzip -d /usr/share/texmf/tex/latex/ /tmp/multirow.zip \
+	# Install modules for pdflatex
+	&& for i in cmap fancybox titlesec framed fancyvrb threeparttable mdwtools wrapfig parskip upquote float multirow; do \
+		curl -L -o /tmp/$i.zip http://mirrors.ctan.org/macros/latex/contrib/$i.zip && unzip -d /usr/share/texmf/tex/latex/ /tmp/$i.zip; \
+	done \
+	&& cd /usr/share/texmf/tex/latex/fancyvrb && latex fancyvrb.ins && cd - \
+	&& cd /usr/share/texmf/tex/latex/float && latex float.ins && cd - \
 	&& texhash \
 
 	&& npm install -g bower gulp \
