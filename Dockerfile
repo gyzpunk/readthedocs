@@ -6,9 +6,7 @@ ENV RTD_PATH="/usr/src/app" \
 	RTD_PRODUCTION_DOMAIN="localhost:8000" \
 	RTD_SLUMBER_PASSWORD="docbuilder" \
 	SECRET_KEY="changemeplease" \
-	DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite" \
-	APP_DATA_PATH="/var/app-data" \
-	APP_LOGS_PATH="/var/app-logs"
+	DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite"
 
 # Install necessary system packages
 RUN export DEBIAN_FRONTEND="noninteractive" \
@@ -79,15 +77,7 @@ RUN npm install \
 	&& echo "from django.contrib.auth.models import User; import os; User.objects.create_superuser('docbuilder', 'docbuilder@localhost', os.getenv('RTD_SLUMBER_PASSWORD'))" | ./manage.py shell \
 
 	# Prepare configuration
-	&& echo "import os\nSLUMBER_USERNAME = 'docbuilder'\nSLUMBER_PASSWORD = os.getenv('RTD_SLUMBER_PASSWORD', 'docbuilder')\nPRODUCTION_DOMAIN = os.getenv('RTD_PRODUCTION_DOMAIN', 'localhost:8000')" >> readthedocs/settings/local_settings.py \
+	&& echo "import os\nSLUMBER_USERNAME = 'docbuilder'\nSLUMBER_PASSWORD = os.getenv('RTD_SLUMBER_PASSWORD', 'docbuilder')\nPRODUCTION_DOMAIN = os.getenv('RTD_PRODUCTION_DOMAIN', 'localhost:8000')" >> readthedocs/settings/local_settings.py
 
-	# Prepare volumes
-	&& path=${APP_DATA_PATH}/db && mkdir -p $path && mv dev.db $path && ln -s $path/dev.db dev.db \
-	&& path=${APP_LOGS_PATH} && mkdir -p $path && mv logs/* $path && rm -rf logs && ln -s $path logs
-
-VOLUME ["/var/app-data", "/var/app-logs"]
-
-# Issue with static files collection to activate gunicorn
-#ENTRYPOINT ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "readthedocs.wsgi"]
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
