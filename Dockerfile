@@ -49,16 +49,6 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& unzip -d . /tmp/rtfd.zip && mv readthedocs.org-master/* . && rm -r readthedocs.org-master \
 	&& pip install --no-cache-dir sphinx \
 	&& pip install --no-cache-dir -r requirements.txt \
-	&& npm install \
-	&& bower install \
-	&& gulp build \
-	&& gulp vendor \
-	# Prepare DB
-	&& ./manage.py syncdb --noinput \
-	&& ./manage.py migrate \
-	&& echo "from django.contrib.auth.models import User; import os; User.objects.create_superuser('docbuilder', 'docbuilder@localhost', os.getenv('RTD_SLUMBER_PASSWORD'))" | ./manage.py shell \
-	# Prepare configuration
-	&& echo "import os\nSLUMBER_USERNAME = 'docbuilder'\nSLUMBER_PASSWORD = os.getenv('RTD_SLUMBER_PASSWORD', 'docbuilder')\nPRODUCTION_DOMAIN = os.getenv('RTD_PRODUCTION_DOMAIN', 'localhost:8000')" >> readthedocs/settings/local_settings.py \
 
 	# Clean up everything
 	&& rm -rf /tmp/* \
@@ -75,6 +65,17 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 WORKDIR /${RTD_PATH}
 
 USER rtfd
+
+RUN npm install \
+	&& bower install \
+	&& gulp build \
+	&& gulp vendor \
+	# Prepare DB
+	&& ./manage.py syncdb --noinput \
+	&& ./manage.py migrate \
+	&& echo "from django.contrib.auth.models import User; import os; User.objects.create_superuser('docbuilder', 'docbuilder@localhost', os.getenv('RTD_SLUMBER_PASSWORD'))" | ./manage.py shell \
+	# Prepare configuration
+	&& echo "import os\nSLUMBER_USERNAME = 'docbuilder'\nSLUMBER_PASSWORD = os.getenv('RTD_SLUMBER_PASSWORD', 'docbuilder')\nPRODUCTION_DOMAIN = os.getenv('RTD_PRODUCTION_DOMAIN', 'localhost:8000')" >> readthedocs/settings/local_settings.py
 
 EXPOSE 8000
 
