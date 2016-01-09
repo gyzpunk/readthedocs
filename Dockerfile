@@ -11,7 +11,7 @@ ENV RTD_PATH="/usr/src/app" \
 # Install necessary system packages
 RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& curl -sL https://deb.nodesource.com/setup_4.x | bash - \
-	&& apt-get update && apt-get install -y \
+	&& apt-get update && apt-get install --no-install-recommends -y \
 		locales \
 		unzip \
 		libxml2-dev \
@@ -22,6 +22,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 		doxygen \
 		texlive-latex-base \
 		texlive-fonts-recommended \
+		doxygen-latex \
 		dvipng \
 		graphviz \
 		nodejs \
