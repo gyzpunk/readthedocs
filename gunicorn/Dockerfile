@@ -2,7 +2,7 @@ FROM gyzpunk/readthedocs
 
 MAINTAINER  gyzpunk "http://github.com/gyzpunk"
 
-ENV DJANGO_SETTINGS_MODULE="readthedocs.settings.portgres"
+ENV DJANGO_SETTINGS_MODULE="readthedocs.settings.postgres"
 
 USER root
 
