@@ -79,5 +79,5 @@ RUN npm install \
 	&& echo "import os\nSLUMBER_USERNAME = 'docbuilder'\nSLUMBER_PASSWORD = os.getenv('RTD_SLUMBER_PASSWORD', 'docbuilder')\nPRODUCTION_DOMAIN = os.getenv('RTD_PRODUCTION_DOMAIN', 'localhost:8000')" >> readthedocs/settings/local_settings.py
 
 EXPOSE 8000
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+VOLUME [$RTD_PATH]
+ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
