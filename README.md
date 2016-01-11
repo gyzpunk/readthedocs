@@ -28,9 +28,16 @@ There are currently two tags available depending of the way to distribute conten
 Those images will expose the **port** `8000` for the web application (to proxify behind a real webserver in case of gunicorn usage) as well as the `/usr/src/app` **volume** which contains all the django project.
 
 You can also use the following environment variables while building Docker image :
+
  -  `RTD_PRODUCTION_DOMAIN`: Stands for `PRODUCTION_DOMAIN`in readthedocs settings (can be formed like "{host}:{port}")
  -  `RTD_SLUMBER_PASSWORD`: Stands for `SLUMBER_PASSWORD`in readthedocs settings (will be used as "docbuilder" account password)
  -  `DJANGO_SETTINGS_MODULE`: Django settings module to be used
+ -  `DJANGO_DB_ENGINE`
+ -  `DJANGO_DB_NAME`
+ -  `DJANGO_DB_USER`
+ -  `DJANGO_DB_PASSWORD`
+ -  `DJANGO_DB_HOST`
+ -  `DJANGO_DB_PORT`
 
   [0]: http://readthedocs.org
   [1]: https://index.docker.io/u/shaker/
