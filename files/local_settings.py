@@ -1,5 +1,7 @@
 import os
 
+from .base import SITE_ROOT
+
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DJANGO_DB_ENGINE', 'django.db.backends.sqlite3'),
