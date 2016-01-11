@@ -5,7 +5,6 @@ MAINTAINER  gyzpunk "http://github.com/gyzpunk"
 ENV RTD_PATH="/usr/src/app" \
 	RTD_PRODUCTION_DOMAIN="localhost:8000" \
 	RTD_SLUMBER_PASSWORD="docbuilder" \
-	SECRET_KEY="changemeplease" \
 	DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite"
 
 # Install necessary system packages
@@ -67,6 +66,8 @@ WORKDIR /${RTD_PATH}
 
 USER rtfd
 
+COPY files/local_settings.py readthedocs/settings/
+
 RUN npm install \
 	&& bower install \
 	&& gulp build \
@@ -74,9 +75,7 @@ RUN npm install \
 	# Prepare DB
 	&& ./manage.py syncdb --noinput \
 	&& ./manage.py migrate \
-	&& echo "from django.contrib.auth.models import User; import os; User.objects.create_superuser('docbuilder', 'docbuilder@localhost', os.getenv('RTD_SLUMBER_PASSWORD'))" | ./manage.py shell \
-	# Prepare configuration
-	&& echo "import os\nSLUMBER_USERNAME = 'docbuilder'\nSLUMBER_PASSWORD = os.getenv('RTD_SLUMBER_PASSWORD', 'docbuilder')\nPRODUCTION_DOMAIN = os.getenv('RTD_PRODUCTION_DOMAIN', 'localhost:8000')" >> readthedocs/settings/local_settings.py
+	&& echo "from django.contrib.auth.models import User; import os; User.objects.create_superuser('docbuilder', 'docbuilder@localhost', os.getenv('RTD_SLUMBER_PASSWORD'))" | ./manage.py shell
 
 EXPOSE 8000
 VOLUME [$RTD_PATH]
