@@ -21,9 +21,6 @@ There are currently two tags available depending of the way to distribute conten
  - Install Docker: [http://docs.docker.io/][2]
  - Execute `docker run -d -p 8000:8000 gyzpunk/readthedocs`
  - Browse [http://<your server ip address>:8000/][3]
- - username/password for admin:
-   - `username` is `docbuilder`
-   - `password` is `docbuilder`
 
 ### Docker configuration
 
