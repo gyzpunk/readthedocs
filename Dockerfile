@@ -7,9 +7,6 @@ ENV RTD_PATH="/usr/src/app" \
 	RTD_SLUMBER_PASSWORD="docbuilder" \
 	DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite"
 
-COPY files/local_settings.py $RTD_PATH/readthedocs/settings/
-COPY files/rtfd-start.sh $RTD_PATH/
-
 # Install necessary system packages
 RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& curl -sL https://deb.nodesource.com/setup_4.x | bash - \
@@ -49,7 +46,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& mkdir -p ${APP_DATA_PATH} ${APP_LOGS_PATH} ${RTD_PATH} \
 	&& cd ${RTD_PATH} \
 	&& curl -L -o /tmp/rtfd.zip https://github.com/rtfd/readthedocs.org/archive/master.zip \
-	&& unzip -d . /tmp/rtfd.zip && mv -f readthedocs.org-master/* . && rm -r readthedocs.org-master \
+	&& unzip -d . /tmp/rtfd.zip && mv readthedocs.org-master/* . && rm -r readthedocs.org-master \
 	&& pip install --no-cache-dir sphinx \
 	&& pip install --no-cache-dir -r requirements.txt \
 
@@ -62,10 +59,13 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 
 	# Create user
 	&& groupadd -r rtfd \
-	&& useradd -m -r -g rtfd rtfd \
-	&& chown -R rtfd:rtfd .
+	&& useradd -m -r -g rtfd rtfd
 
 WORKDIR /${RTD_PATH}
+
+COPY files/local_settings.py ./readthedocs/settings/
+COPY files/rtfd-start.sh ./
+RUN chown -R rtfd:rtfd .
 
 USER rtfd
 
