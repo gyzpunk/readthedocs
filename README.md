@@ -1,7 +1,7 @@
 Docker build for ReadTheDocs (RTD)
 ==================================
 
-[![](https://travis-ci.org/gyzpunk/readthedocs.svg](https://travis-ci.org/gyzpunk/readthedocs)
+[![Travis CI](https://travis-ci.org/gyzpunk/readthedocs.svg)](https://travis-ci.org/gyzpunk/readthedocs)
 
 This repository provides Dockerfile for [Read The Docs][0]
 
