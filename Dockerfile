@@ -7,9 +7,6 @@ ENV RTD_PATH="/usr/src/app" \
 	RTD_SLUMBER_PASSWORD="docbuilder" \
 	DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite"
 
-COPY files/local_settings.py $RTD_PATH/readthedocs/settings/
-COPY files/rtfd-start.sh $RTD_PATH/
-
 # Install necessary system packages
 RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& curl -sL https://deb.nodesource.com/setup_4.x | bash - \
@@ -62,10 +59,13 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 
 	# Create user
 	&& groupadd -r rtfd \
-	&& useradd -m -r -g rtfd rtfd \
-	&& chown -R rtfd:rtfd .
+	&& useradd -m -r -g rtfd rtfd
 
 WORKDIR /${RTD_PATH}
+
+COPY files/local_settings.py ./readthedocs/settings/
+COPY files/rtfd-start.sh ./
+RUN chown -R rtfd:rtfd .
 
 USER rtfd
 
