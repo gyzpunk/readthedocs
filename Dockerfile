@@ -7,6 +7,9 @@ ENV RTD_PATH="/usr/src/app" \
 	RTD_SLUMBER_PASSWORD="docbuilder" \
 	DJANGO_SETTINGS_MODULE="readthedocs.settings.sqlite"
 
+COPY files/local_settings.py $RTD_PATH/readthedocs/settings/
+COPY files/rtfd-start.sh $RTD_PATH/
+
 # Install necessary system packages
 RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& curl -sL https://deb.nodesource.com/setup_4.x | bash - \
@@ -66,13 +69,13 @@ WORKDIR /${RTD_PATH}
 
 USER rtfd
 
-COPY files/local_settings.py readthedocs/settings/
-
 RUN npm install \
 	&& bower install \
 	&& gulp build \
-	&& gulp vendor
+	&& gulp vendor \
+	&& chmod +x rtfd-start.sh
 
 EXPOSE 8000
 VOLUME [$RTD_PATH]
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["./rtfd-start.sh"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
