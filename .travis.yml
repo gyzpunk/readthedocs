@@ -1,0 +1,5 @@
+install:
+  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+
+script:
+  - ./run 'docker build -t gyzpunk/readthedocs . && docker run --entrypoint=bash gyzpunk/readthedocs -ec "echo Build succeed"'
