@@ -49,7 +49,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 	&& mkdir -p ${APP_DATA_PATH} ${APP_LOGS_PATH} ${RTD_PATH} \
 	&& cd ${RTD_PATH} \
 	&& curl -L -o /tmp/rtfd.zip https://github.com/rtfd/readthedocs.org/archive/master.zip \
-	&& unzip -d . /tmp/rtfd.zip && mv readthedocs.org-master/* . && rm -r readthedocs.org-master \
+	&& unzip -d . /tmp/rtfd.zip && mv -f readthedocs.org-master/* . && rm -r readthedocs.org-master \
 	&& pip install --no-cache-dir sphinx \
 	&& pip install --no-cache-dir -r requirements.txt \
 
