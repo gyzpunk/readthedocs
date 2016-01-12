@@ -71,11 +71,7 @@ COPY files/local_settings.py readthedocs/settings/
 RUN npm install \
 	&& bower install \
 	&& gulp build \
-	&& gulp vendor \
-	# Prepare DB
-	&& ./manage.py syncdb --noinput \
-	&& ./manage.py migrate \
-	&& echo "from django.contrib.auth.models import User; import os; User.objects.create_superuser('docbuilder', 'docbuilder@localhost', os.getenv('RTD_SLUMBER_PASSWORD'))" | ./manage.py shell
+	&& gulp vendor
 
 EXPOSE 8000
 VOLUME [$RTD_PATH]
