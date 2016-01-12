@@ -7,6 +7,11 @@ services:
   
 before_install:
   - docker build -t gyzpunk/readthedocs .
+  - docker run -d --name rtfd gyzpunk/readthedocs
+  - docker ps -a
 
 script:
-  - docker run --entrypoint=bash gyzpunk/readthedocs -ec "echo Build succeed"
+  - docker exec rtfd echo Build succeed
+
+after_success:
+  - curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/gyzpunk/readthedocs/trigger/274048bd-f547-4dfb-aaef-939c36382a09/
