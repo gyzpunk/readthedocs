@@ -1,5 +1,13 @@
-install:
-  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+sudo: required
+
+language: python
+
+services:
+  - docker
+  
+before_install:
+  - docker build -t gyzpunk/readthedocs .
+  - docker ps -a
 
 script:
-  - ./run 'docker build -t gyzpunk/readthedocs . && docker run --entrypoint=bash gyzpunk/readthedocs -ec "echo Build succeed"'
+  - docker run --entrypoint=bash gyzpunk/readthedocs -ec "echo Build succeed"'
