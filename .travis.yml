@@ -11,7 +11,7 @@ before_install:
   - docker ps -a
 
 deploy:
-  provider: script
+  - provider: script
     script: docker_deploy.sh
     on:
       branch: master
