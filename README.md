@@ -1,7 +1,7 @@
 Docker build for ReadTheDocs (RTD)
 ==================================
 
-[![Travis CI](https://travis-ci.org/gyzpunk/readthedocs.svg)](https://travis-ci.org/gyzpunk/readthedocs)
+[![Build Status](https://travis-ci.org/gyzpunk/readthedocs.svg?branch=master)](https://travis-ci.org/gyzpunk/readthedocs)
 
 This repository provides Dockerfile for [Read The Docs][0]
 
@@ -20,7 +20,7 @@ There are currently two tags available depending of the way to distribute conten
 
  - Install Docker: [http://docs.docker.io/][2]
  - Execute `docker run -d -p 8000:8000 gyzpunk/readthedocs`
- - Browse [http://<your server ip address>:8000/][3]
+ - Browse [http://<your server ip address>:8000/][3]A
 
 ### Docker configuration
 
