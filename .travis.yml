@@ -10,7 +10,11 @@ before_install:
   - docker run -d --name rtfd gyzpunk/readthedocs
   - docker ps -a
 
-after_success: "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST https://registry.hub.docker.com/u/gyzpunk/readthedocs/trigger/274048bd-f547-4dfb-aaef-939c36382a09/"
+deploy:
+  - provider: script
+    script: docker_deploy.sh
+    on:
+      branch: master
 
 script:
   - docker exec rtfd echo Build succeed
