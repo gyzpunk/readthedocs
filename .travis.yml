@@ -10,12 +10,9 @@ before_install:
   - docker run -d --name rtfd gyzpunk/readthedocs
   - docker ps -a
 
-before_deploy:
-  - chmod +x ./docker-deploy.sh
-
 deploy:
   - provider: script
-    script: ./docker_deploy.sh
+    script: "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST https://registry.hub.docker.com/u/gyzpunk/readthedocs/trigger/${DOCKER_TOKEN}/"
     on:
       branch: master
 
