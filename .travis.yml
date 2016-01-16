@@ -12,7 +12,7 @@ before_install:
 
 deploy:
   - provider: script
-    script: docker_deploy.sh
+    script: "curl -H \"Content-Type: application/json\" --data '{\"build\": true}' -X POST https://registry.hub.docker.com/u/${TRAVIS_REPO_SLUG}/trigger/${DOCKER_TOKEN}/"
     on:
       branch: master
 
