@@ -76,6 +76,5 @@ RUN npm install \
 	&& chmod +x rtfd-start.sh
 
 EXPOSE 8000
-VOLUME [$RTD_PATH]
 ENTRYPOINT ["./rtfd-start.sh"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
